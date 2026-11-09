@@ -1,0 +1,66 @@
+/* install to ~/.config/rofi/config.rasi */
+
+configuration {
+    modi: "drun";
+    show-icons: false;
+    drun-display-format: "{name}";
+    font: "monospace 10";
+}
+
+* {
+    bg:     #fdf6e3;
+    fg:     #586e75;
+    dim:    #93a1a1;
+    sel:    #eee8d5;
+    border: #ddd6c1;
+
+    background-color: transparent;
+    text-color: @fg;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    width: 400px;
+    background-color: @bg;
+    border: 1px;
+    border-color: @border;
+    border-radius: 0;
+}
+
+mainbox {
+    padding: 8px;
+    children: [inputbar, listview];
+}
+
+inputbar {
+    padding: 6px 8px;
+    children: [entry];
+}
+
+entry {
+    placeholder: "search";
+    placeholder-color: @dim;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    scrollbar: false;
+    fixed-height: false;
+    margin: 4px 0 0 0;
+}
+
+element {
+    padding: 4px 8px;
+}
+
+element selected.normal {
+    background-color: @sel;
+    text-color: @fg;
+}
+
+element-text {
+    text-color: inherit;
+}

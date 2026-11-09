@@ -1,0 +1,7 @@
+[colors.primary]
+background = "#1d1b18"
+foreground = "#d9d2bd"
+
+[colors.cursor]
+text = "#1d1b18"
+cursor = "#d9d2bd"

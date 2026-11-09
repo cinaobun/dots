@@ -1,0 +1,145 @@
+# bun yams i3
+
+set $mod Mod4
+set $term alacritty
+set $files nautilus
+
+font pango:monospace 10
+
+floating_modifier $mod
+focus_follows_mouse yes
+
+
+# ---------- look ----------
+
+default_border none
+default_floating_border none
+for_window [class=".*"] border none
+title_align center
+hide_edge_borders none
+
+gaps inner 6
+gaps outer 6
+
+# class                 border   bg       text     indicator child_border
+client.focused          #ddd6c1  #eee8d5  #586e75  #ddd6c1   #ddd6c1
+client.focused_inactive #ddd6c1  #eee8d5  #93a1a1  #ddd6c1   #ddd6c1
+client.unfocused        #ddd6c1  #eee8d5  #93a1a1  #ddd6c1   #ddd6c1
+client.urgent           #dc322f  #eee8d5  #dc322f  #dc322f   #dc322f
+client.background       #fdf6e3
+
+
+# ---------- workspaces ----------
+
+set $ws1  "1:a"
+set $ws2  "2:b"
+set $ws3  "3:c"
+set $ws4  "4:d"
+set $ws5  "5"
+set $ws6  "6"
+set $ws7  "7"
+set $ws8  "8"
+set $ws9  "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+z workspace prev
+bindsym $mod+x workspace next
+
+
+# ---------- programs ----------
+
+bindsym $mod+Return exec --no-startup-id $term
+bindsym $mod+e exec --no-startup-id $files
+bindsym $mod+Control+s exec --no-startup-id sh -c 'flameshot gui --raw | xclip -selection clipboard -t image/png'
+bindsym $mod+b exec --no-startup-id zen-browser
+bindsym $mod+space exec --no-startup-id rofi -show drun
+bindsym $mod+w exec --no-startup-id /home/bun/.local/bin/wallpick 2> /tmp/wallpick.log
+bindsym $mod+Shift+w exec --no-startup-id /home/bun/.local/bin/themepick
+
+
+# ---------- sound / media ----------
+
+bindsym $mod+equal exec bash /home/bun/.config/hypr/scripts/volume.sh up
+bindsym $mod+minus exec bash /home/bun/.config/hypr/scripts/volume.sh down
+bindsym $mod+p     exec bash /home/bun/.config/hypr/scripts/toggle-audio-output.sh
+
+bindsym XF86AudioRaiseVolume  exec --no-startup-id wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume  exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute         exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym XF86AudioPlay         exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext         exec --no-startup-id playerctl next
+bindsym XF86AudioPrev         exec --no-startup-id playerctl previous
+
+
+# ---------- windows ----------
+
+bindsym $mod+q       kill
+bindsym $mod+Shift+q exec --no-startup-id xdotool getwindowfocus getwindowpid | xargs kill -9
+
+bindsym $mod+f fullscreen toggle
+bindsym $mod+d floating toggle
+
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Mod1+Left  resize shrink width 10 px
+bindsym $mod+Mod1+Right resize grow width 10 px
+bindsym $mod+Mod1+Up    resize shrink height 10 px
+bindsym $mod+Mod1+Down  resize grow height 10 px
+
+bindsym $mod+t layout toggle split
+
+# added: session control
+bindsym $mod+Shift+r restart
+
+
+#---------- window rules ----------
+
+for_window [class="(?i)(pavucontrol|nm-connection-editor|blueman-manager|polkit-kde-authentication-agent-1|xdg-desktop-portal-gtk)"] floating enable
+for_window [class="^swiv$"] floating enable
+
+
+# ---------- startup ----------
+
+exec_always --no-startup-id xrdb -merge ~/.Xresources
+exec_always --no-startup-id setxkbmap -layout us -option compose:ralt
+exec_always --no-startup-id xset r rate 225 65
+exec_always --no-startup-id nvidia-settings --assign CurrentMetaMode="1920x1080_165 +0+0 {ForceFullCompositionPipeline=On}"
+exec_always --no-startup-id feh --bg-fill '/home/bun/.config/wallpaper'
+exec_always --no-startup-id "sh -c 'sleep 1; polybar main'"
+
+exec --no-startup-id dbus-update-activation-environment --systemd --all
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+exec --no-startup-id dunst
+exec --no-startup-id openrgb -c B773FF

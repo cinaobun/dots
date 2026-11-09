@@ -1,0 +1,6 @@
+# --- Quickshell Palette ---
+[palettes.quickshell]
+bg = "#09090b"
+fg = "#f0f1f3"
+accent = "#4d84e4"
+accentcomplementary = "#874ce4"

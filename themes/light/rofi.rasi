@@ -1,0 +1,7 @@
+* {
+    bg:     #fdf6e3;
+    fg:     #586e75;
+    dim:    #93a1a1;
+    sel:    #eee8d5;
+    border: #ddd6c1;
+}
